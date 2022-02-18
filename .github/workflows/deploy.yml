@@ -1,0 +1,49 @@
+name: Deploy To Cloud Run
+on:
+  push:
+    branches:
+      - main
+
+env:
+  SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GCP_REGION: ${{ secrets.GCP_REGION }}
+  IMAGE_NAME: asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.SERVICE_NAME }}:${{ github.sha }}
+
+jobs:
+  deploy-to-cloud-run:
+    name: Deploy to Cloud Run
+    runs-on: ubuntu-20.04
+    timeout-minutes: 300
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - id: auth-gcloud
+        name: Authenticate to gcloud
+        uses: google-github-actions/auth@v0
+        with:
+          workload_identity_provider: ${{ secrets.GCLOUD_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCLOUD_SERVICE_ACCOUNT }}
+          create_credentials_file: 'true'
+          cleanup_credentials: 'true'
+
+      - name: Configure docker to use the gcloud cli
+        run: gcloud auth configure-docker --quiet
+
+      - name: Build a docker image
+        run: docker build -t $IMAGE_NAME .
+
+      - name: Push the docker image to Container Registry
+        run: docker push $IMAGE_NAME
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy $SERVICE_NAME \
+            --image $IMAGE_NAME \
+            --project $GCP_PROJECT_ID \
+            --region $GCP_REGION \
+            --platform=managed \
+            --allow-unauthenticated \
+            --quiet
