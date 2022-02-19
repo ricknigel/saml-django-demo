@@ -112,6 +112,7 @@ def acs(request):
     errors = auth.get_errors()
 
     if not errors:
+        print('not error')
         if 'AuthNRequestID' in request.session:
             del request.session['AuthNRequestID']
         request.session['samlUserdata'] = auth.get_attributes()
@@ -121,7 +122,12 @@ def acs(request):
         request.session['samlNameIdSPNameQualifier'] = auth.get_nameid_spnq()
         request.session['samlSessionIndex'] = auth.get_session_index()
     print('-------セッション-------')
-    print(request.session)
+    print(request.session['samlUserdata'])
+    print(request.session['samlNameId'])
+    print(request.session['samlNameIdFormat'])
+    print(request.session['samlNameIdNameQualifier'])
+    print(request.session['samlNameIdSPNameQualifier'])
+    print(request.session['samlSessionIndex'])
     return HttpResponseRedirect(auth.redirect_to('/'))
 
 
