@@ -120,7 +120,8 @@ def acs(request):
         request.session['samlNameIdNameQualifier'] = auth.get_nameid_nq()
         request.session['samlNameIdSPNameQualifier'] = auth.get_nameid_spnq()
         request.session['samlSessionIndex'] = auth.get_session_index()
-
+    print('-------セッション-------')
+    print(request.session)
     return HttpResponseRedirect(auth.redirect_to('/'))
 
 
