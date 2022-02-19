@@ -60,7 +60,7 @@ def prepare_django_request(request):
         'https': 'on',
         'http_host': request.META['HTTP_HOST'],
         'script_name': request.META['PATH_INFO'],
-        'server_port': request.META['SERVER_PORT'],
+        # 'server_port': request.META['SERVER_PORT'],
         'get_data': request.GET.copy(),
         'post_data': request.POST.copy(),
         'query_string': request.META['QUERY_STRING']
