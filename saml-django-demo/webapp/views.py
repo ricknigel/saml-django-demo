@@ -23,7 +23,7 @@ def load_settings():
                 'url': '',
                 'binding': 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
             },
-            'NameIDFormat': 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
+            'NameIDFormat': 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress', # NOQA
             'x509cert': '',
             'privateKey': ''
         },
@@ -50,7 +50,7 @@ def load_settings():
             "wantNameId": True,
             "wantNameIdEncrypted": False,
             "wantAttributeStatement": False,
-            "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+            "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256", # NOQA
             "digestAlgorithm": "http://www.w3.org/2001/04/xmlenc#sha256"
         },
     }
@@ -138,13 +138,6 @@ def acs(request):
     else:
         print(errors)
 
-    # print('-------セッション-------')
-    # print(request.session['samlUserdata'])
-    # print(request.session['samlNameId'])
-    # print(request.session['samlNameIdFormat'])
-    # print(request.session['samlNameIdNameQualifier'])
-    # print(request.session['samlNameIdSPNameQualifier'])
-    # print(request.session['samlSessionIndex'])
     return HttpResponseRedirect(auth.redirect_to('/'))
 
 
