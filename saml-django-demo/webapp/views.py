@@ -17,7 +17,7 @@ def load_settings():
             'entityId': os.getenv('SP_ENTITY_ID'),
             'assertionConsumerService': {
                 'url': os.getenv('SP_ACS_URL'),
-                'binding': 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'
+                'binding': 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
             },
             'singleLogoutService': {
                 'url': '',
@@ -64,6 +64,8 @@ def prepare_django_request(request):
         'post_data': request.POST.copy(),
         'query_string': request.META['QUERY_STRING']
     }
+    import json
+    print(json.dumps(result))
     return result
 
 
