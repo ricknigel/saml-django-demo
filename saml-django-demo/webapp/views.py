@@ -49,6 +49,7 @@ def load_settings():
             "wantAssertionsSigned": False,
             "wantNameId": True,
             "wantNameIdEncrypted": False,
+            "wantAttributeStatement": False,
             "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
             "digestAlgorithm": "http://www.w3.org/2001/04/xmlenc#sha256"
         },
