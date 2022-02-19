@@ -4,6 +4,7 @@ from django.conf import settings
 from django.http import (HttpResponse, HttpResponseRedirect,
                          HttpResponseServerError)
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from onelogin.saml2.auth import OneLogin_Saml2_Auth
 from onelogin.saml2.settings import OneLogin_Saml2_Settings
 
@@ -77,9 +78,10 @@ def index(request):
         if len(request.session['samlUserdata']) > 0:
             attributes = request.session['samlUserdata'].items()
 
-    return render(request, 'index.html', { 'attributes': attributes })
+    return render(request, 'index.html', {'attributes': attributes})
 
 
+@csrf_exempt
 def sso(request):
     """
     SAML認証要求
@@ -90,6 +92,7 @@ def sso(request):
     return HttpResponseRedirect(auth.login())
 
 
+@csrf_exempt
 def acs(request):
     """
     SAML認証応答 アサーション検証
