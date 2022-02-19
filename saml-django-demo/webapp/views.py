@@ -17,7 +17,7 @@ def load_settings():
             'entityId': os.getenv('SP_ENTITY_ID'),
             'assertionConsumerService': {
                 'url': os.getenv('SP_ACS_URL'),
-                'binding': 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
+                'binding': 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'
             },
             'singleLogoutService': {
                 'url': '',
@@ -56,7 +56,8 @@ def prepare_django_request(request):
     SAMLクライアント初期化パラメータ
     """
     result = {
-        'https': 'on' if request.is_secure() else 'off',
+        # 'https': 'on' if request.is_secure() else 'off',
+        'https': 'on',
         'http_host': request.META['HTTP_HOST'],
         'script_name': request.META['PATH_INFO'],
         'server_port': request.META['SERVER_PORT'],
@@ -64,8 +65,9 @@ def prepare_django_request(request):
         'post_data': request.POST.copy(),
         'query_string': request.META['QUERY_STRING']
     }
-    import json
-    print(json.dumps(result))
+    print(result)
+    print(result['get_data'])
+    print(result['post_data'])
     return result
 
 
