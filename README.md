@@ -19,6 +19,7 @@ $ docker run --rm -itd -p 8001:8001 --env-file=settings/google.sso.env <image-na
 
 # TODO
 
+- is_validでエラーになってる
 - DockerコンテナのOSをRedHat7にする
 - RedHat7の環境でインストール手順を確立する
 - CloudRunへDeploy

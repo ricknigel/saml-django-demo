@@ -38,7 +38,20 @@ def load_settings():
                 'binding': 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
             },
             'x509cert': os.getenv('IDP_CERT')
-        }
+        },
+        "security": {
+            "nameIdEncrypted": False,
+            "authnRequestsSigned": False,
+            "logoutRequestSigned": False,
+            "logoutResponseSigned": False,
+            "signMetadata": False,
+            "wantMessagesSigned": False,
+            "wantAssertionsSigned": False,
+            "wantNameId": True,
+            "wantNameIdEncrypted": False,
+            "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+            "digestAlgorithm": "http://www.w3.org/2001/04/xmlenc#sha256"
+        },
     }
 
 
