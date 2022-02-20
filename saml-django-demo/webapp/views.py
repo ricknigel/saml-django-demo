@@ -129,7 +129,9 @@ def acs(request):
         print('not error')
         if 'AuthNRequestID' in request.session:
             del request.session['AuthNRequestID']
+        print(auth.get_attributes().items())
         request.session['samlUserdata'] = auth.get_attributes()
+        print(auth.get_nameid())
         request.session['samlNameId'] = auth.get_nameid()
         request.session['samlNameIdFormat'] = auth.get_nameid_format()
         request.session['samlNameIdNameQualifier'] = auth.get_nameid_nq()
