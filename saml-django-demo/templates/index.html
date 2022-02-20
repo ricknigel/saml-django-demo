@@ -5,17 +5,11 @@
 {% if attributes %}
   <table>
     <thead>
-      <th>Key</th><th>Value</th>
+      <th>email</th><th>sessionIndex</th>
     </thead>
     <tbody>
-      {% for attr in attributes %}
-        <tr><td>{{ attr.0 }}</td>
-        <td><ul>
-          {% for val in attr.1 %}
-            <li>{{ val }}</li>
-          {% endfor %}
-        </ul></td></tr>
-      {% endfor %}
+      <tr><td>{{ attributes.email }}</td>
+      <tr><td>{{ attributes.sessionIndex }}</td>
     </tbody>
   </table>
   <a href="{% url "logout" %}">ログアウト</a>

@@ -79,9 +79,6 @@ def prepare_django_request(request):
         'post_data': request.POST.copy(),
         'query_string': request.META['QUERY_STRING']
     }
-    print(result)
-    print(result['get_data'])
-    print(result['post_data'])
     return result
 
 
@@ -92,9 +89,11 @@ def index(request):
 
     attributes = False
 
-    if 'samlUserdata' in request.session:
-        if len(request.session['samlUserdata']) > 0:
-            attributes = request.session['samlUserdata'].items()
+    if 'email' in request.session and 'sessionIndex' in request.session:
+        attributes = {
+            'email': request.session['email'],
+            'sessionIndex': request.session['sessionIndex']
+        }
 
     return render(request, 'index.html', {'attributes': attributes})
 
@@ -129,14 +128,8 @@ def acs(request):
         print('not error')
         if 'AuthNRequestID' in request.session:
             del request.session['AuthNRequestID']
-        print(auth.get_attributes().items())
-        request.session['samlUserdata'] = auth.get_attributes()
-        print(auth.get_nameid())
-        request.session['samlNameId'] = auth.get_nameid()
-        request.session['samlNameIdFormat'] = auth.get_nameid_format()
-        request.session['samlNameIdNameQualifier'] = auth.get_nameid_nq()
-        request.session['samlNameIdSPNameQualifier'] = auth.get_nameid_spnq()
-        request.session['samlSessionIndex'] = auth.get_session_index()
+        request.session['email'] = auth.get_nameid()
+        request.session['sessionIndex'] = auth.get_session_index()
     else:
         print(errors)
 
