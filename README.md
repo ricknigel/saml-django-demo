@@ -13,7 +13,7 @@ $ pip install python3-saml
 
 ```
 $ docker build -t <image-name> .
-$ docker run --rm -itd -p 8001:8001 --env-file=settings/google.sso.env <image-name>
+$ docker run --rm -itd -p 8001:8001 --env-file=settings/.env <image-name>
 ```
 
 

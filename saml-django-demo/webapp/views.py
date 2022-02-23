@@ -1,12 +1,13 @@
 import os
 
-from django.conf import settings
 from django.http import (HttpResponse, HttpResponseRedirect,
                          HttpResponseServerError)
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from onelogin.saml2.auth import OneLogin_Saml2_Auth
 from onelogin.saml2.settings import OneLogin_Saml2_Settings
+
+from webapp.decorators import login_required
 
 
 def load_settings():
@@ -82,6 +83,7 @@ def prepare_django_request(request):
     return result
 
 
+@login_required
 def index(request):
     """
     トップページ
@@ -140,9 +142,9 @@ def metadata(request):
     """
     SPメタデータ出力
     """
+    settings_data = load_settings()
     saml_settings = OneLogin_Saml2_Settings(
-        settings=None,
-        custom_base_path=settings.SAML_FOLDER,
+        settings=settings_data,
         sp_validation_only=True
     )
     metadata = saml_settings.get_sp_metadata()
@@ -152,3 +154,18 @@ def metadata(request):
         return HttpResponse(content=metadata, content_type='text/xml')
     else:
         return HttpResponseServerError(content=','.join(errors))
+
+
+def logout(request):
+    """
+    logout画面
+    """
+    request.session.flush()
+    return render(request, 'logout.html')
+
+
+def timeout(request):
+    """
+    タイムアウト画面
+    """
+    return render(request, 'timeout.html')
